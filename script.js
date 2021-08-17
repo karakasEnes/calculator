@@ -26,10 +26,29 @@ function addDecimal() {
   }
 }
 
+const calculator = {
+  "/": (firstNumber, secondNumber) => firstNumber / secondNumber,
+  "*": (firstNumber, secondNumber) => firstNumber * secondNumber,
+  "+": (firstNumber, secondNumber) => firstNumber + secondNumber,
+  "-": (firstNumber, secondNumber) => firstNumber - secondNumber,
+  "=": (firstNumber, secondNumber) => secondNumber,
+};
+
 function operatorSetup(operator) {
+  // prevent multiple operator
+  if (operatorValue && awaitingSecondValue) {
+    operatorValue = operator;
+    return;
+  }
+
   if (!firstValue) {
     firstValue = Number(calculatorDisplay.textContent);
   } else {
+    currentValue = Number(calculatorDisplay.textContent);
+    console.log(firstValue, operatorValue, currentValue);
+    const calculation = calculator[operatorValue](firstValue, currentValue);
+    console.log("conclution: ", calculation);
+    firstValue = calculation;
   }
   awaitingSecondValue = true;
   operatorValue = operator;
